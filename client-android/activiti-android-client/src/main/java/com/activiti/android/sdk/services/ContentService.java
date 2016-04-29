@@ -46,6 +46,7 @@ public class ContentService extends ActivitiService
         super(client);
         api = client.retrofit.create(ContentAPI.class);
         taskApi = client.retrofit.create(TaskAPI.class);
+        processApi = client.retrofit.create(ProcessInstanceAPI.class);
     }
 
     public String getDownloadUrl(Long contentId)

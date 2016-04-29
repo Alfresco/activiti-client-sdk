@@ -28,6 +28,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 import com.activiti.client.api.model.common.ResultList;
@@ -124,14 +125,26 @@ public interface ProcessInstanceAPI
             @Path("processInstanceId") String processInstanceId);
 
     @Multipart
-    @POST("api/enterprise/process-instances/{processInstanceId}/raw-content")
+    @POST("api/enterprise/process-instances/{processInstanceId}/raw-content?isRelatedContent=true")
     Call<RelatedContentRepresentation> createRelatedContentOnProcessInstance(
             @Path("processInstanceId") String processInstanceId, @Part("file") RequestBody resource);
 
     @Multipart
-    @POST("api/enterprise/process-instances/{processInstanceId}/raw-content")
+    @POST("api/enterprise/process-instances/{processInstanceId}/raw-content?isRelatedContent=true")
     Observable<RelatedContentRepresentation> createRelatedContentOnProcessInstanceObservable(
             @Path("processInstanceId") String processInstanceId, @Part("file") RequestBody resource);
+
+    @Multipart
+    @POST("api/enterprise/process-instances/{processInstanceId}/raw-content")
+    Call<RelatedContentRepresentation> createRelatedContentOnProcessInstance(
+            @Path("processInstanceId") String processInstanceId, @Part("file") RequestBody resource,
+            @Query("isRelatedContent") Boolean isRelatedContent);
+
+    @Multipart
+    @POST("api/enterprise/process-instances/{processInstanceId}/raw-content")
+    Observable<RelatedContentRepresentation> createRelatedContentOnProcessInstanceObservable(
+            @Path("processInstanceId") String processInstanceId, @Part("file") RequestBody resource,
+            @Query("isRelatedContent") Boolean isRelatedContent);
 
     @POST("api/enterprise/process-instances/{processInstanceId}/content")
     Call<RelatedContentRepresentation> linkRelatedContentOnProcessInstance(
