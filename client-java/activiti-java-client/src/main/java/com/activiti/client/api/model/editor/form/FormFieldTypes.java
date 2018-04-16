@@ -37,6 +37,8 @@ public interface FormFieldTypes
 
     String DATE = "date";
 
+    String DATE_TIME = "datetime";
+
     String BOOLEAN = "boolean";
 
     String RADIO_BUTTONS = "radio-buttons";
