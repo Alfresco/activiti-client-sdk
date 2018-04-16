@@ -428,6 +428,10 @@ public class FormFieldRepresentation
         return FormFieldTypes.DATE.equals(type);
     }
 
+    public boolean isFieldTypeDateTime() {
+        return FormFieldTypes.DATE_TIME.equals(type);
+    }
+
     public boolean isFieldTypeHashMap()
     {
         return FormFieldTypes.DROPDOWN.equals(type) || FormFieldTypes.TYPEAHEAD.equals(type)

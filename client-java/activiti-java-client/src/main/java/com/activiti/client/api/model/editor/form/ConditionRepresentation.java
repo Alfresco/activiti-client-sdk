@@ -159,6 +159,7 @@ public class ConditionRepresentation implements Iterable<ConditionRepresentation
             if (formFieldDefinition.isFieldTypeHashMap()) { return getFieldValueFromHashMap(formFieldValue, fieldId); }
             if (formFieldDefinition.isFieldTypeText()) { return String.valueOf(formFieldValue); }
             if (formFieldDefinition.isFieldTypeDate()) { return getFieldValueFromDate(formFieldValue); }
+            if (formFieldDefinition.isFieldTypeDateTime()) { return getFieldValueFromDate(formFieldValue); }
 
         }
         else if (values.get(fieldId) != null) { return String.valueOf(values.get(fieldId)); }
