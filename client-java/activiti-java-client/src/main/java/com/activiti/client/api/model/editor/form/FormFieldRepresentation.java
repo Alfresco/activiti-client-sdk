@@ -70,6 +70,8 @@ public class FormFieldRepresentation
 
     protected String restLabelProperty;
 
+    protected String dateDisplayFormat;
+
     protected String tab;
 
     protected String className;
@@ -148,6 +150,14 @@ public class FormFieldRepresentation
     public void setRequired(boolean required)
     {
         this.required = required;
+    }
+
+    public String getDateDisplayFormat() {
+        return dateDisplayFormat;
+    }
+
+    public void setDateDisplayFormat(String dateDisplayFormat) {
+        this.dateDisplayFormat = dateDisplayFormat;
     }
 
     public boolean isReadOnly()
