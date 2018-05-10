@@ -430,7 +430,7 @@ public class FormFieldRepresentation
     {
         return FormFieldTypes.BOOLEAN.equals(type) || FormFieldTypes.SINGLE_LINE_TEXT.equals(type)
                 || FormFieldTypes.MULTI_LINE_TEXT.equals(type) || FormFieldTypes.INTEGER.equals(type)
-                || FormFieldTypes.AMOUNT.equals(type);
+                || FormFieldTypes.AMOUNT.equals(type) || FormFieldTypes.DROPDOWN.equals(type);
     }
 
     public boolean isFieldTypeDate()
@@ -444,8 +444,7 @@ public class FormFieldRepresentation
 
     public boolean isFieldTypeHashMap()
     {
-        return FormFieldTypes.DROPDOWN.equals(type) || FormFieldTypes.TYPEAHEAD.equals(type)
-                || FormFieldTypes.RADIO_BUTTONS.equals(type);
+        return FormFieldTypes.TYPEAHEAD.equals(type) || FormFieldTypes.RADIO_BUTTONS.equals(type);
     }
 
     private String getROFieldType()
