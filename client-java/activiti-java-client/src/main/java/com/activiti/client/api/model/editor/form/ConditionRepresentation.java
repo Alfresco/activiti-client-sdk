@@ -157,12 +157,17 @@ public class ConditionRepresentation implements Iterable<ConditionRepresentation
         {
             Object formFieldValue = values.get(fieldIdWithoutSuffix);
             if (formFieldDefinition.isFieldTypeHashMap()) { return getFieldValueFromHashMap(formFieldValue, fieldId); }
-            if (formFieldDefinition.isFieldTypeText()) { return String.valueOf(formFieldValue); }
+            if (formFieldDefinition.isFieldTypeText()) {
+                if (formFieldValue instanceof OptionRepresentation) {
+                    return ((OptionRepresentation) formFieldValue).getName();
+                }
+                return String.valueOf(formFieldValue);
+            }
             if (formFieldDefinition.isFieldTypeDate()) { return getFieldValueFromDate(formFieldValue); }
             if (formFieldDefinition.isFieldTypeDateTime()) { return getFieldValueFromDate(formFieldValue); }
-
+            return String.valueOf(values.get(fieldIdWithoutSuffix));
         }
-        else if (values.get(fieldId) != null) { return String.valueOf(values.get(fieldId)); }
+        else if (values.get(fieldIdWithoutSuffix) != null) { return String.valueOf(values.get(fieldIdWithoutSuffix)); }
 
         return StringUtils.EMPTY;
     }
