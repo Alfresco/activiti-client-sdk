@@ -161,7 +161,7 @@ public class ConditionRepresentation implements Iterable<ConditionRepresentation
                 if (formFieldValue instanceof OptionRepresentation) {
                     return ((OptionRepresentation) formFieldValue).getName();
                 }
-                return String.valueOf(formFieldValue);
+                return formFieldValue != null ? String.valueOf(formFieldValue) : null;
             }
             if (formFieldDefinition.isFieldTypeDate()) { return getFieldValueFromDate(formFieldValue); }
             if (formFieldDefinition.isFieldTypeDateTime()) { return getFieldValueFromDate(formFieldValue); }
