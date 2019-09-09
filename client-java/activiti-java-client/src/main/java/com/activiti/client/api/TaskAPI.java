@@ -20,6 +20,7 @@ package com.activiti.client.api;
 
 import java.util.List;
 
+import com.activiti.client.api.model.runtime.*;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -38,12 +39,6 @@ import com.activiti.client.api.model.common.ResultList;
 import com.activiti.client.api.model.editor.form.FormDefinitionRepresentation;
 import com.activiti.client.api.model.editor.form.OptionRepresentation;
 import com.activiti.client.api.model.editor.form.request.CompleteFormRepresentation;
-import com.activiti.client.api.model.runtime.ChecklistOrderRepresentation;
-import com.activiti.client.api.model.runtime.CommentRepresentation;
-import com.activiti.client.api.model.runtime.RelatedContentRepresentation;
-import com.activiti.client.api.model.runtime.SaveFormRepresentation;
-import com.activiti.client.api.model.runtime.TaskFilterRequestRepresentation;
-import com.activiti.client.api.model.runtime.TaskRepresentation;
 import com.activiti.client.api.model.runtime.request.AddContentRelatedRepresentation;
 import com.activiti.client.api.model.runtime.request.AssignTaskRepresentation;
 import com.activiti.client.api.model.runtime.request.AttachFormTaskRepresentation;
@@ -166,6 +161,12 @@ public interface TaskAPI
     @GET("api/enterprise/task-forms/{taskId}/form-values/{fieldId}")
     Observable<List<OptionRepresentation>> getFormFieldValuesObservable(@Path("taskId") String taskId,
             @Path("fieldId") String fieldId);
+
+    @GET("api/enterprise/task-forms/{taskId}/variables")
+    Call<List<RestVariable>> getFormVariables(@Path("taskId") String taskId);
+
+    @GET("api/enterprise/task-forms/{taskId}/variables")
+    Observable<List<RestVariable>> getFormVariablesObservable(@Path("taskId") String taskId);
 
     @GET("api/enterprise/task-forms/{taskId}/")
     Call<FormDefinitionRepresentation> getTaskForm(@Path("taskId") String taskId);

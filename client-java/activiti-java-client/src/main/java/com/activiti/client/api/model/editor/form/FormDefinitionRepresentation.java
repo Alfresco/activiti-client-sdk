@@ -18,6 +18,8 @@
 
 package com.activiti.client.api.model.editor.form;
 
+import com.activiti.client.api.model.runtime.RestVariable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,8 @@ public class FormDefinitionRepresentation
     protected Map<String, String> metadata = new HashMap<>();
 
     protected boolean gridsterForm = true;
+
+    protected List<RestVariable> variables = new ArrayList<>();
 
     public Long getId()
     {
@@ -320,4 +324,11 @@ public class FormDefinitionRepresentation
         }
     }
 
+    public void setVariables(List<RestVariable> variables) {
+        this.variables = variables;
+    }
+
+    public List<RestVariable> getVariables() {
+        return variables;
+    }
 }
