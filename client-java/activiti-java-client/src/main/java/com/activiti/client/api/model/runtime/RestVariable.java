@@ -26,6 +26,7 @@ package com.activiti.client.api.model.runtime;
  */
 public class RestVariable
 {
+    private String id;
 
     private String name;
 
@@ -51,6 +52,14 @@ public class RestVariable
         {
             return null;
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName()

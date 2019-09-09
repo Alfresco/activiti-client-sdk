@@ -18,6 +18,8 @@
 
 package com.activiti.client.api.model.editor.form;
 
+import com.activiti.client.api.model.runtime.RestVariable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +89,8 @@ public class FormFieldRepresentation
     protected int row;
 
     protected int col;
+
+    protected List<RestVariable> variables;
 
     public FormFieldRepresentation()
     {
@@ -459,5 +463,13 @@ public class FormFieldRepresentation
         String type = getROFieldType();
         // For readonly getRO is null so we switch to get default type.
         return (type == null || type.isEmpty()) ? getType() : type;
+    }
+
+    public List<RestVariable> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(List<RestVariable> variables) {
+        this.variables = variables;
     }
 }

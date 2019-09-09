@@ -20,6 +20,7 @@ package com.activiti.android.sdk.services;
 
 import java.util.List;
 
+import com.activiti.client.api.model.runtime.*;
 import okhttp3.RequestBody;
 import retrofit2.Callback;
 
@@ -29,11 +30,6 @@ import com.activiti.client.api.model.common.ResultList;
 import com.activiti.client.api.model.editor.form.FormDefinitionRepresentation;
 import com.activiti.client.api.model.editor.form.OptionRepresentation;
 import com.activiti.client.api.model.editor.form.request.CompleteFormRepresentation;
-import com.activiti.client.api.model.runtime.ChecklistOrderRepresentation;
-import com.activiti.client.api.model.runtime.CommentRepresentation;
-import com.activiti.client.api.model.runtime.RelatedContentRepresentation;
-import com.activiti.client.api.model.runtime.SaveFormRepresentation;
-import com.activiti.client.api.model.runtime.TaskRepresentation;
 import com.activiti.client.api.model.runtime.request.AddContentRelatedRepresentation;
 import com.activiti.client.api.model.runtime.request.AssignTaskRepresentation;
 import com.activiti.client.api.model.runtime.request.AttachFormTaskRepresentation;
@@ -192,6 +188,10 @@ public class TaskService extends ActivitiService
     public void getFormFieldValues(String taskId, String fieldId, Callback<List<OptionRepresentation>> callback)
     {
         api.getFormFieldValues(taskId, fieldId).enqueue(callback);
+    }
+
+    public void getFormVariables(String taskId, Callback<List<RestVariable>> callback) {
+        api.getFormVariables(taskId).enqueue(callback);
     }
 
     public void completeTaskForm(String taskId, CompleteFormRepresentation request, Callback<Void> callback)
