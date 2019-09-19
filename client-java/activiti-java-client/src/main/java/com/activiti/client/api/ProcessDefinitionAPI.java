@@ -20,6 +20,7 @@ package com.activiti.client.api;
 
 import java.util.List;
 
+import com.activiti.client.api.model.editor.form.OptionRepresentation;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -52,15 +53,15 @@ public interface ProcessDefinitionAPI
 
     @GET("api/enterprise/process-definitions/{processDefinitionId}/start-form")
     Call<FormDefinitionRepresentation> getProcessDefinitionStartForm(
-            @Path("processDefinitionId") Long processDefinitionId);
+            @Path("processDefinitionId") String processDefinitionId);
 
     @GET("api/enterprise/process-definitions/{processDefinitionId}/start-form")
     Observable<FormDefinitionRepresentation> getProcessDefinitionStartFormObservable(
             @Path("processDefinitionId") Long processDefinitionId);
 
     @GET("api/enterprise/process-definitions/{processDefinitionId}/start-form-values/{field}")
-    Call<List<FormValueRepresentation>> getRestFieldValues(@Path("processDefinitionId") Long processDefinitionId,
-            @Path("field") String field);
+    Call<List<OptionRepresentation>> getRestFieldValues(@Path("processDefinitionId") String processDefinitionId,
+                                                        @Path("field") String field);
 
     @GET("api/enterprise/process-definitions/{processDefinitionId}/start-form-values/{field}")
     Observable<List<FormValueRepresentation>> getRestFieldValuesObservable(

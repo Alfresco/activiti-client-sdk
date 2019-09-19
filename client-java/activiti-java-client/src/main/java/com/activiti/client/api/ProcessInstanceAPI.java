@@ -18,6 +18,8 @@
 
 package com.activiti.client.api;
 
+import com.activiti.client.api.model.editor.form.FormDefinitionRepresentation;
+import com.activiti.client.api.model.runtime.*;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,14 +34,10 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 import com.activiti.client.api.model.common.ResultList;
-import com.activiti.client.api.model.runtime.CommentRepresentation;
-import com.activiti.client.api.model.runtime.ProcessContentRepresentation;
-import com.activiti.client.api.model.runtime.ProcessInstanceFilterRequestRepresentation;
-import com.activiti.client.api.model.runtime.ProcessInstanceRepresentation;
-import com.activiti.client.api.model.runtime.ProcessesRequestRepresentation;
-import com.activiti.client.api.model.runtime.RelatedContentRepresentation;
 import com.activiti.client.api.model.runtime.request.AddContentRelatedRepresentation;
 import com.activiti.client.api.model.runtime.request.CreateProcessInstanceRepresentation;
+
+import java.util.List;
 
 /**
  * Created by jpascal on 11/12/2014.
@@ -153,4 +151,10 @@ public interface ProcessInstanceAPI
     @POST("api/enterprise/process-instances/{processInstanceId}/content")
     Observable<RelatedContentRepresentation> linkRelatedContentOnProcessInstanceObservable(
             @Path("processInstanceId") String processInstanceId, @Body AddContentRelatedRepresentation representation);
+
+    @GET("api/enterprise/process-instances/{processInstanceId}/start-form")
+    Call<FormDefinitionRepresentation> getStartFormProcessInstance(@Path("processInstanceId") String processInstanceId);
+
+    @GET("api/enterprise/process-instances/{processInstanceId}/historic-variables")
+    Call<List<RestVariable>> getHistoricFormVariables(@Path("processInstanceId") String processInstanceId);
 }

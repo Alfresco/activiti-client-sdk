@@ -18,12 +18,16 @@
 
 package com.activiti.android.sdk.services;
 
+import com.activiti.client.api.model.editor.form.FormDefinitionRepresentation;
+import com.activiti.client.api.model.editor.form.OptionRepresentation;
 import retrofit2.Callback;
 
 import com.activiti.client.api.ProcessDefinitionAPI;
 import com.activiti.client.api.model.common.ResultList;
 import com.activiti.client.api.model.runtime.ProcessDefinitionRepresentation;
 import com.alfresco.client.RestClient;
+
+import java.util.List;
 
 /**
  * Created by jpascal on 11/12/2014.
@@ -65,4 +69,11 @@ public class ProcessDefinitionService extends ActivitiService
         }
     }
 
+    public void getProcessDefinitionStartForm(String processDefinitionId, Callback<FormDefinitionRepresentation> callback) {
+        api.getProcessDefinitionStartForm(processDefinitionId).enqueue(callback);
+    }
+
+    public void getRestFieldValues(String processDefinitionId, String field, Callback<List<OptionRepresentation>> callback) {
+        api.getRestFieldValues(processDefinitionId, field).enqueue(callback);
+    }
 }
