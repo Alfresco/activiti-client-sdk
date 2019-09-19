@@ -18,19 +18,18 @@
 
 package com.activiti.android.sdk.services;
 
+import com.activiti.client.api.model.editor.form.FormDefinitionRepresentation;
+import com.activiti.client.api.model.runtime.*;
 import okhttp3.RequestBody;
 import retrofit2.Callback;
 
 import com.activiti.client.api.ProcessInstanceAPI;
 import com.activiti.client.api.model.common.ResultList;
-import com.activiti.client.api.model.runtime.CommentRepresentation;
-import com.activiti.client.api.model.runtime.ProcessContentRepresentation;
-import com.activiti.client.api.model.runtime.ProcessInstanceRepresentation;
-import com.activiti.client.api.model.runtime.ProcessesRequestRepresentation;
-import com.activiti.client.api.model.runtime.RelatedContentRepresentation;
 import com.activiti.client.api.model.runtime.request.AddContentRelatedRepresentation;
 import com.activiti.client.api.model.runtime.request.CreateProcessInstanceRepresentation;
 import com.alfresco.client.RestClient;
+
+import java.util.List;
 
 /**
  * Created by jpascal on 11/12/2014.
@@ -130,5 +129,13 @@ public class ProcessService extends ActivitiService
             Callback<CommentRepresentation> callback)
     {
         api.addProcessInstanceComment(processInstanceId, request).enqueue(callback);
+    }
+
+    public void getStartFormProcessInstance(String processInstanceId, Callback<FormDefinitionRepresentation> callback) {
+        api.getStartFormProcessInstance(processInstanceId).enqueue(callback);
+    }
+
+    public void getHistoricFormVariables(String processInstanceId, Callback<List<RestVariable>> callback) {
+        api.getHistoricFormVariables(processInstanceId).enqueue(callback);
     }
 }
