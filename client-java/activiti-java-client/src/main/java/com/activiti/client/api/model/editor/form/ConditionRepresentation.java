@@ -165,6 +165,14 @@ public class ConditionRepresentation implements Iterable<ConditionRepresentation
             }
             if (formFieldDefinition.isFieldTypeDate()) { return getFieldValueFromDate(formFieldValue); }
             if (formFieldDefinition.isFieldTypeDateTime()) { return getFieldValueFromDate(formFieldValue); }
+            if (formFieldDefinition.isDisplayOnly()) {
+                Object value = values.get(fieldIdWithoutSuffix);
+                if (value != null) {
+                    value.toString();
+                } else {
+                    return null;
+                }
+            }
             return String.valueOf(values.get(fieldIdWithoutSuffix));
         }
         else if (values.get(fieldIdWithoutSuffix) != null) { return String.valueOf(values.get(fieldIdWithoutSuffix)); }
