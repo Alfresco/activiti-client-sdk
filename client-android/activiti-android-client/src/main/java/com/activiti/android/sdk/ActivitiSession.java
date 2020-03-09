@@ -91,7 +91,7 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
         return registry;
     }
 
-    public void updateCredentials(final String username, final String password)
+    public void updateCredentials(final String username, final String password, final AuthType authType)
     {
         getOkHttpClient().interceptors().clear();
         okHttpClient.interceptors().add(new Interceptor()
@@ -100,7 +100,7 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
             public Response intercept(Chain chain) throws IOException
             {
                 Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", getBasicAuth(username, password)).build();
+                        .addHeader("Authorization", getAuthHeader(username, password, authType)).build();
                 return chain.proceed(newRequest);
             }
         });

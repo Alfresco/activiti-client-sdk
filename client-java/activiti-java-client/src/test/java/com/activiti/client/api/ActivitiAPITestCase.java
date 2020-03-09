@@ -29,6 +29,7 @@ import org.testng.log4testng.Logger;
 import retrofit2.Response;
 
 import com.activiti.client.BPMClient;
+import com.alfresco.client.AbstractClient.AuthType;
 
 public abstract class ActivitiAPITestCase
 {
@@ -71,13 +72,13 @@ public abstract class ActivitiAPITestCase
     // ///////////////////////////////////////////////////////////////////////////
     public void prepareDefaultClient()
     {
-        client = new BPMClient.Builder().connect(TEST_ENDPOINT, TEST_USERNAME, TEST_PASSWORD)
+        client = new BPMClient.Builder().connect(TEST_ENDPOINT, TEST_USERNAME, TEST_PASSWORD, AuthType.BASIC)
                 .httpLogging(HttpLoggingInterceptor.Level.BODY).build();
     }
 
     public BPMClient prepareClient(String endpoint, String username, String password)
     {
-        return new BPMClient.Builder().connect(endpoint, username, password)
+        return new BPMClient.Builder().connect(endpoint, username, password, AuthType.BASIC)
                 .httpLogging(HttpLoggingInterceptor.Level.BODY).build();
     }
 

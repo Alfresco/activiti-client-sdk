@@ -40,6 +40,19 @@ import com.google.gson.GsonBuilder;
  */
 public abstract class AbstractClient<T>
 {
+    public enum AuthType {
+        BASIC("basic"), TOKEN("token");
+
+        private String value;
+
+        AuthType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
 
     protected RestClient restClient;
 
@@ -72,16 +85,20 @@ public abstract class AbstractClient<T>
         return restClient.retrofit.create(service);
     }
 
-    // ///////////////////////////////////////////////////////////////////////////
-    // BASIC AUTH
-    // ///////////////////////////////////////////////////////////////////////////
-    protected static String getBasicAuth(String username, String password)
+    protected static String getAuthHeader(String username, String password, AuthType authType)
     {
         // Prepare Basic AUTH
         if (username != null && password != null)
         {
-            String credentials = username + ":" + password;
-            return "Basic " + Base64.encodeBytes(credentials.getBytes());
+            if (authType == AuthType.BASIC)
+            {
+                String credentials = username + ":" + password;
+                return "Basic " + Base64.encodeBytes(credentials.getBytes());
+            }
+            else
+            {
+                return "Bearer " + password;
+            }
         }
         throw new IllegalArgumentException("Invalid Credentials");
     }
@@ -93,6 +110,8 @@ public abstract class AbstractClient<T>
     {
         protected String endpoint, username, password, auth;
 
+        protected AuthType authType;
+
         protected OkHttpClient okHttpClient;
 
         protected Retrofit retrofit;
@@ -101,11 +120,12 @@ public abstract class AbstractClient<T>
 
         protected HttpLoggingInterceptor.Level logginLevel = HttpLoggingInterceptor.Level.NONE;
 
-        public Builder<T> connect(String endpoint, String username, String password)
+        public Builder<T> connect(String endpoint, String username, String password, AuthType authType)
         {
             this.endpoint = endpoint;
             this.username = username;
             this.password = password;
+            this.authType = authType;
             return this;
         }
 
@@ -152,11 +172,8 @@ public abstract class AbstractClient<T>
                 logging.setLevel(logginLevel);
                 builder.addInterceptor(logging);
 
-                if (username != null && password != null)
-                {
-
-                    String credentials = username + ":" + password;
-                    auth = "Basic " + Base64.encodeBytes(credentials.getBytes());
+                try {
+                    auth = getAuthHeader(username, password, authType);
 
                     builder.addInterceptor(new Interceptor()
                     {
@@ -168,6 +185,7 @@ public abstract class AbstractClient<T>
                             return chain.proceed(newRequest);
                         }
                     });
+                } catch (IllegalArgumentException ex) {
                 }
 
                 okHttpClient = builder.build();
