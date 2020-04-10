@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -71,23 +72,12 @@ public abstract class AbstractClient<T>
         return restClient.retrofit.create(service);
     }
 
-    protected static String getBasicAuthHeaderValue(String username, String password)
-    {
-        // Prepare Basic AUTH
-        if (username != null && password != null)
-        {
-            String credentials = username + ":" + password;
-            return "Basic " + Base64.encodeBytes(credentials.getBytes());
-        }
-        throw new IllegalArgumentException("Invalid Credentials");
-    }
-
     // ///////////////////////////////////////////////////////////////////////////
     // BUILDER
     // ///////////////////////////////////////////////////////////////////////////
     public static abstract class Builder<T>
     {
-        protected String endpoint, username, password, auth;
+        protected String endpoint, username, password;
 
         protected OkHttpClient okHttpClient;
 
@@ -190,23 +180,20 @@ public abstract class AbstractClient<T>
                 }
                 else
                 {
-                    try {
-                        auth = getBasicAuthHeaderValue(username, password);
+                    final String credentials = Credentials.basic(username, password);
 
-                        builder.addInterceptor(new Interceptor()
+                    builder.addInterceptor(new Interceptor()
+                    {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException
                         {
-                            @Override
-                            public Response intercept(Chain chain) throws IOException
-                            {
-                                Request newRequest = chain.request()
-                                    .newBuilder()
-                                    .addHeader("Authorization", auth)
-                                    .build();
-                                return chain.proceed(newRequest);
-                            }
-                        });
-                    } catch (IllegalArgumentException ex) {
-                    }
+                            Request newRequest = chain.request()
+                                .newBuilder()
+                                .addHeader("Authorization", credentials)
+                                .build();
+                            return chain.proceed(newRequest);
+                        }
+                    });
                 }
 
                 okHttpClient = builder.build();
