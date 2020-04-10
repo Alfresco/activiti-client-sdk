@@ -35,14 +35,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>activiti-java-client</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>io.gsonfire</groupId>
             <artifactId>gson-fire</artifactId>
-            <version>1.5.0</version>
+            <version>1.8.3</version>
         </dependency>
         <!-- TESTS DEPENDENCIES -->
         <dependency>
