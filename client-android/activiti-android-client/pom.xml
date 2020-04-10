@@ -23,11 +23,11 @@
     <parent>
         <groupId>org.alfresco.client</groupId>
         <artifactId>activiti-client</artifactId>
-        <version>1.4.0-beta1</version>
+        <version>1.5.0</version>
         <relativePath>../../</relativePath>
     </parent>
     <artifactId>activiti-android-client</artifactId>
-    <version>1.1.0-beta1</version>
+    <version>1.2.0</version>
     <name>Alfresco Activiti Android SDK</name>
     <description>Alfresco Activiti Android Client</description>
     <packaging>jar</packaging>

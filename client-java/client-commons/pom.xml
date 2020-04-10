@@ -23,11 +23,11 @@
     <parent>
         <groupId>org.alfresco.client</groupId>
         <artifactId>activiti-client</artifactId>
-        <version>1.4.0-beta1</version>
+        <version>1.5.0</version>
         <relativePath>../../</relativePath>
     </parent>
     <artifactId>client-commons</artifactId>
-    <version>1.0.0-beta1</version>
+    <version>1.1.0</version>
     <name>Alfresco Client Commons</name>
     <description>Alfresco Client Commons</description>
     <packaging>jar</packaging>

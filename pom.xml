@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.alfresco.client</groupId>
     <artifactId>activiti-client</artifactId>
-    <version>1.4.0-beta1</version>
+    <version>1.5.0</version>
     <packaging>pom</packaging>
 
     <name>Alfresco Activiti Client (Parent)</name>
@@ -123,7 +123,7 @@
         <!-- Libraries versions -->
         <retrofit.version>2.5.0</retrofit.version>
         <okhttp.version>3.2.0</okhttp.version>
-        <alfresco.commons.version>1.0.0-beta1</alfresco.commons.version>
+        <alfresco.commons.version>1.1.0</alfresco.commons.version>
     </properties>
 
     <build>
