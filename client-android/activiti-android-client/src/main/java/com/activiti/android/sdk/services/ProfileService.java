@@ -45,7 +45,7 @@ public class ProfileService extends ActivitiService
 
     public String getProfilePictureURL()
     {
-        return restClient.endpoint.concat("/api/enterprise/profile-picture");
+        return restClient.endpoint.concat("api/enterprise/profile-picture");
     }
 
     public void getProfile(Callback<UserRepresentation> callback)

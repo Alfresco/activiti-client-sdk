@@ -51,12 +51,12 @@ public class ContentService extends ActivitiService
 
     public String getDownloadUrl(Long contentId)
     {
-        return String.format(restClient.endpoint.concat("/api/enterprise/content/%s/raw"), Long.toString(contentId));
+        return String.format(restClient.endpoint.concat("api/enterprise/content/%s/raw"), Long.toString(contentId));
     }
 
     public String getThumbnailUrl(Long contentId)
     {
-        return String.format(restClient.endpoint.concat("/api/enterprise/content/%s/rendition/thumbnail"),
+        return String.format(restClient.endpoint.concat("api/enterprise/content/%s/rendition/thumbnail"),
                 Long.toString(contentId));
     }
 

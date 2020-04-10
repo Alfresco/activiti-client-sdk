@@ -61,7 +61,7 @@ public class TaskService extends ActivitiService
 
     public String getShareUrl(String taskId)
     {
-        return String.format(restClient.endpoint.concat("/workflow/#/task/%s"), taskId);
+        return String.format(restClient.endpoint.concat("workflow/#/task/%s"), taskId);
     }
 
     // ///////////////////////////////////////////////////////////////////

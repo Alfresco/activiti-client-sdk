@@ -48,7 +48,7 @@ public class ModelService extends ActivitiService
     // ///////////////////////////////////////////////////////////////////
     public String getModelThumbnailUrl(String modelId)
     {
-        return String.format(restClient.endpoint.concat("/api/enterprise/models/%s/thumbnail"), modelId);
+        return String.format(restClient.endpoint.concat("api/enterprise/models/%s/thumbnail"), modelId);
     }
 
     public ResultList<ModelRepresentation> getAppDefinitionModels()

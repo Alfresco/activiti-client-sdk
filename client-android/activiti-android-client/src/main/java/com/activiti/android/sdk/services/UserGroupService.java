@@ -49,7 +49,7 @@ public class UserGroupService extends ActivitiService
     // ///////////////////////////////////////////////////////////////////
     public String getPicture(Long userId)
     {
-        return String.format(restClient.endpoint.concat("/api/enterprise/users/%s/picture"), userId);
+        return String.format(restClient.endpoint.concat("api/enterprise/users/%s/picture"), userId);
     }
 
     public void getUsers(String filter, Callback<ResultList<LightUserRepresentation>> callback)

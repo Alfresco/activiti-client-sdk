@@ -47,12 +47,12 @@ public class ProcessService extends ActivitiService
 
     public String getShareUrl(String processId)
     {
-        return String.format(restClient.endpoint.concat("/workflow/#/process/%s"), processId);
+        return String.format(restClient.endpoint.concat("workflow/#/process/%s"), processId);
     }
 
     public String getProcessDiagramUrl(String processId, String tenantId)
     {
-        return String.format(restClient.endpoint.concat("/api/runtime/process-instances/%1s/diagram?tenantId=%2s"),
+        return String.format(restClient.endpoint.concat("api/runtime/process-instances/%1s/diagram?tenantId=%2s"),
                 processId, tenantId);
     }
 
