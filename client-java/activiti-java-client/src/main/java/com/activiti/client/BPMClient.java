@@ -152,7 +152,7 @@ public class BPMClient extends AbstractClient<BPMClient>
     {
 
         @Override
-        public String getUSerAgent()
+        public String getUserAgent()
         {
             return "Alfresco-BPM-Client/" + Version.SDK;
         }

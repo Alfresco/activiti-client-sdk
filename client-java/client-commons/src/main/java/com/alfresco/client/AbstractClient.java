@@ -40,20 +40,6 @@ import com.google.gson.GsonBuilder;
  */
 public abstract class AbstractClient<T>
 {
-    public enum AuthType {
-        BASIC("basic"), TOKEN("token");
-
-        private String value;
-
-        AuthType(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     protected RestClient restClient;
 
     protected OkHttpClient okHttpClient;
@@ -85,20 +71,13 @@ public abstract class AbstractClient<T>
         return restClient.retrofit.create(service);
     }
 
-    protected static String getAuthHeader(String username, String password, AuthType authType)
+    protected static String getBasicAuthHeaderValue(String username, String password)
     {
         // Prepare Basic AUTH
         if (username != null && password != null)
         {
-            if (authType == AuthType.BASIC)
-            {
-                String credentials = username + ":" + password;
-                return "Basic " + Base64.encodeBytes(credentials.getBytes());
-            }
-            else
-            {
-                return "Bearer " + password;
-            }
+            String credentials = username + ":" + password;
+            return "Basic " + Base64.encodeBytes(credentials.getBytes());
         }
         throw new IllegalArgumentException("Invalid Credentials");
     }
@@ -110,8 +89,6 @@ public abstract class AbstractClient<T>
     {
         protected String endpoint, username, password, auth;
 
-        protected AuthType authType;
-
         protected OkHttpClient okHttpClient;
 
         protected Retrofit retrofit;
@@ -120,12 +97,24 @@ public abstract class AbstractClient<T>
 
         protected HttpLoggingInterceptor.Level logginLevel = HttpLoggingInterceptor.Level.NONE;
 
-        public Builder<T> connect(String endpoint, String username, String password, AuthType authType)
+        protected Interceptor authInterceptor;
+
+        public Builder<T> connect(String endpoint)
         {
             this.endpoint = endpoint;
+            return this;
+        }
+
+        /**
+         * Provide basic authorization credentials
+         * @deprecated
+         * Please consider providing {@link #authInterceptor} instead.
+         */
+        @Deprecated
+        public Builder<T> credentials(String username, String password)
+        {
             this.username = username;
             this.password = password;
-            this.authType = authType;
             return this;
         }
 
@@ -153,6 +142,12 @@ public abstract class AbstractClient<T>
             return this;
         }
 
+        public Builder<T> authInterceptor(Interceptor interceptor)
+        {
+            this.authInterceptor = interceptor;
+            return this;
+        }
+
         public T build()
         {
             // Check Parameters
@@ -168,24 +163,50 @@ public abstract class AbstractClient<T>
                 builder.protocols(protocols);
                 builder.connectTimeout(10, TimeUnit.SECONDS);
 
+                // Add interceptor to update any headers
+                builder.addInterceptor(new Interceptor()
+                {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException
+                    {
+                        Request newRequest = chain.request()
+                            .newBuilder()
+                            .removeHeader("User-Agent")
+                            .addHeader("User-Agent", getUserAgent())
+                            .build();
+                        return chain.proceed(newRequest);
+                    }
+                });
+
+                // Add logging interceptor before authorization to avoid leaking private data
                 HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
                 logging.setLevel(logginLevel);
                 builder.addInterceptor(logging);
 
-                try {
-                    auth = getAuthHeader(username, password, authType);
+                // Add auth interceptor if available or create one for basic auth
+                if (authInterceptor != null)
+                {
+                    builder.addInterceptor(authInterceptor);
+                }
+                else
+                {
+                    try {
+                        auth = getBasicAuthHeaderValue(username, password);
 
-                    builder.addInterceptor(new Interceptor()
-                    {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException
+                        builder.addInterceptor(new Interceptor()
                         {
-                            Request newRequest = chain.request().newBuilder().addHeader("Authorization", auth)
-                                    .removeHeader("User-Agent").addHeader("User-Agent", getUSerAgent()).build();
-                            return chain.proceed(newRequest);
-                        }
-                    });
-                } catch (IllegalArgumentException ex) {
+                            @Override
+                            public Response intercept(Chain chain) throws IOException
+                            {
+                                Request newRequest = chain.request()
+                                    .newBuilder()
+                                    .addHeader("Authorization", auth)
+                                    .build();
+                                return chain.proceed(newRequest);
+                            }
+                        });
+                    } catch (IllegalArgumentException ex) {
+                    }
                 }
 
                 okHttpClient = builder.build();
@@ -211,7 +232,7 @@ public abstract class AbstractClient<T>
 
         public abstract GsonBuilder getDefaultGsonBuilder();
 
-        public abstract String getUSerAgent();
+        public abstract String getUserAgent();
 
         public abstract T create(RestClient restClient, OkHttpClient okHttpClient);
 

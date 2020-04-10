@@ -91,21 +91,6 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
         return registry;
     }
 
-    public void updateCredentials(final String username, final String password, final AuthType authType)
-    {
-        getOkHttpClient().interceptors().clear();
-        okHttpClient.interceptors().add(new Interceptor()
-        {
-            @Override
-            public Response intercept(Chain chain) throws IOException
-            {
-                Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", getAuthHeader(username, password, authType)).build();
-                return chain.proceed(newRequest);
-            }
-        });
-    }
-
     public boolean isActivitiOnTheCloud()
     {
         if (restClient == null || restClient.endpoint == null) { return false; }
@@ -118,7 +103,7 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
     public static class Builder extends AbstractClient.Builder<ActivitiSession>
     {
         @Override
-        public String getUSerAgent()
+        public String getUserAgent()
         {
             return "Activiti-Android-Client/" + Version.SDK;
         }
