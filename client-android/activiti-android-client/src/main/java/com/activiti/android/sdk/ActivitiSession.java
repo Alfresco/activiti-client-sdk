@@ -119,6 +119,11 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
 
         public ActivitiSession build()
         {
+            return super.build();
+        }
+
+        public ActivitiSession buildSharedInstance()
+        {
             mInstance = super.build();
             return mInstance;
         }
