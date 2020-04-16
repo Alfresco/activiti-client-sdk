@@ -20,8 +20,9 @@ package com.activiti.android.sdk;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map;;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -59,20 +60,13 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
 {
     protected static final Object LOCK = new Object();
 
-    protected static ActivitiSession mInstance;
+    protected static HashMap<String, WeakReference<ActivitiSession>> cache = new HashMap<>();
 
     protected ServiceRegistry registry;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
     // ///////////////////////////////////////////////////////////////////////////
-    public static ActivitiSession getInstance()
-    {
-        synchronized (LOCK)
-        {
-            return mInstance;
-        }
-    }
 
     protected ActivitiSession(RestClient restClient, OkHttpClient okHttpClient)
     {
@@ -98,6 +92,20 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
     }
 
     // ///////////////////////////////////////////////////////////////////////////
+    // CACHING
+    // ///////////////////////////////////////////////////////////////////////////
+    public static ActivitiSession with(String identifier)
+    {
+        WeakReference<ActivitiSession> weakRef = cache.get(identifier);
+        return weakRef != null ? weakRef.get() : null;
+    }
+
+    public void register(String identifier)
+    {
+        cache.put(identifier, new WeakReference(this));
+    }
+
+    // ///////////////////////////////////////////////////////////////////////////
     // BUILDER
     // ///////////////////////////////////////////////////////////////////////////
     public static class Builder extends AbstractClient.Builder<ActivitiSession>
@@ -114,18 +122,12 @@ public class ActivitiSession extends AbstractClient<ActivitiSession>
             return new ActivitiSession(new RestClient(endpoint, retrofit, username), okHttpClient);
         }
 
+        // ///////////////////////////////////////////////////////////////////////////
         // BUILD
         // ///////////////////////////////////////////////////////////////////////////
-
         public ActivitiSession build()
         {
             return super.build();
-        }
-
-        public ActivitiSession buildSharedInstance()
-        {
-            mInstance = super.build();
-            return mInstance;
         }
 
         @Override
