@@ -87,11 +87,11 @@ public class ContentService extends ActivitiService
         }
     }
 
-    public RelatedContentRepresentation createRelatedContentOnTask(String taskId, RequestBody file)
+    public Response<RelatedContentRepresentation> createRelatedContentOnTask(String taskId, RequestBody file)
     {
         try
         {
-            return taskApi.createRelatedContentOnTask(taskId, file).execute().body();
+            return taskApi.createRelatedContentOnTask(taskId, file).execute();
         }
         catch (Exception e)
         {
@@ -99,11 +99,11 @@ public class ContentService extends ActivitiService
         }
     }
 
-    public RelatedContentRepresentation createRelatedContentOnProcessInstance(String processId, RequestBody file)
+    public Response<RelatedContentRepresentation> createRelatedContentOnProcessInstance(String processId, RequestBody file)
     {
         try
         {
-            return processApi.createRelatedContentOnProcessInstance(processId, file).execute().body();
+            return processApi.createRelatedContentOnProcessInstance(processId, file).execute();
         }
         catch (Exception e)
         {
@@ -111,11 +111,11 @@ public class ContentService extends ActivitiService
         }
     }
 
-    public RelatedContentRepresentation createTemporaryRawRelatedContent(RequestBody file)
+    public Response<RelatedContentRepresentation> createTemporaryRawRelatedContent(RequestBody file)
     {
         try
         {
-            return api.createTemporaryRawRelatedContent(file).execute().body();
+            return api.createTemporaryRawRelatedContent(file).execute();
         }
         catch (Exception e)
         {
